@@ -1,0 +1,435 @@
+\documentclass[11pt,letterpaper,reqno]{amsart}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta, calc, positioning}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{enumitem} 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18} 
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{doi}
+\usepackage{float} 
+\addtolength{\hoffset}{-1.5cm}\addtolength{\textwidth}{3cm}
+\addtolength{\voffset}{-1cm}\addtolength{\textheight}{2cm}
+
+\usepackage{bookmark}
+\usepackage{hyperref}
+\hypersetup{pdfstartview={FitH}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\abs}[1]{| #1 |}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\tr}{\operatorname{Tr}}
+\DeclareMathOperator{\rank}{rank}
+
+
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}{Claim}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\numberwithin{equation}{section}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\taufunc}{\tau}
+\newcommand{\omegap}{\omega}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\R}{\mathbb{R}}        % real numbers
+\newcommand{\E}{\mathbb{E}}        % expectation
+\newcommand{\Var}{\mathrm{Var}}    % variance
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\PP}{\mathbb{P}}     % probability
+\newcommand{\eps}{\varepsilon}     % epsilon
+\newcommand{\ind}{\mathbf{1}}      % indicator function
+\newcommand{\seq}[1]{\left(#1\right)} % sequence
+\newcommand{\lcm}{\operatorname{lcm}}
+\makeatother
+
+
+\begin{document}
+
+% \title{}
+
+% \author[]{}
+% \address{} 
+% \email{}
+
+% \author[]{}
+% \address{}
+% \email{}
+
+
+% \subjclass[2020]{xxx}
+
+% \keywords{xxx}
+
+% \begin{abstract}
+
+% \end{abstract}
+
+
+
+% \maketitle
+
+
+\section{Introduction}
+
+In~\cite[p.~80]{Er69}, Erd\H{o}s wrote:
+\begin{quote}
+\emph{I just want to state without proof a special result in this
+direction, namely
+\begin{equation}\label{eq:erdos_error_result_1}
+\frac{\log\log n}{\log n}n+c_9\frac{n}{(\log n)^2}\leq g_3(n)\leq \frac{\log\log n}{\log n}n+c_{10}\frac{n}{(\log n)^2}.
+\end{equation}
+It is not clear whether~\eqref{eq:erdos_error_result_1} can be sharpened.}
+\end{quote}
+This leads to the following problem, which also appears as Problem~\#796 on Bloom's Erd\H{o}s Problems website~\cite{EP796}.
+\begin{problem}\label{prob:EP796}
+Let $k\geq 2$ and let $g_k(n)$ be the largest possible size of $A\subseteq \{1,\ldots,n\}$ such that every $m$ has $<k$ solutions to $m=a_1a_2$ with $a_1<a_2\in A$.
+
+Is it true that\[g_3(n)=\frac{\log\log n}{\log n}n+(c+o(1))\frac{n}{(\log n)^2}\]for some constant $c$?    
+\end{problem}
+
+
+In this note, we show that~\eqref{eq:erdos_error_result_1} is false, thereby providing a counterexample to Problem~\ref{prob:EP796}. We also give a corrected version of the problem.
+
+
+
+
+
+
+
+
+
+
+\section{A lower bound}
+Fix $n\ge 2$. Then $g_3(n)$ denote the largest cardinality of a set
+$A\subseteq \{1,2,\dots,n\}$ with the property that for every integer $m$
+the equation
+\[
+m=a_1a_2,\qquad a_1<a_2,\ a_1,a_2\in A,
+\]
+has at most $2$ solutions.
+
+Let $M$ be the Meissel--Mertens constant. Then we have the following lower bound.
+\begin{proposition}\label{prop:main_lower_bound_1}
+For all sufficiently large $n$,
+\[
+g_3(n) \ge \frac{n\log\log n}{\log n}+(M+1+o(1))\frac{n}{\log n}.
+\]
+\end{proposition}
+
+\begin{proof}
+Let
+\[
+P:=\{p\le n:\ p\ \text{is prime}\},
+\qquad
+S:=\{pq\le n:\ p,q\ \text{primes and } q>\sqrt n\},
+\]
+and define
+\[
+A:=P\cup S\subseteq \{1,2,\dots,n\}.
+\]
+
+\noindent\textbf{1. $A$ has at most two multiplicative representations. }Call a prime \emph{large} if it exceeds $\sqrt n$. 
+
+\begin{claim}\label{claim:one-large}
+Every element $a\in A$ has at most one large prime divisor (counted without multiplicity).
+\end{claim}
+
+\begin{proof}[Proof of Claim~\ref{claim:one-large}]
+If $a\in P$ then $a$ is prime, so the claim is trivial.
+If $a\in S$, then $a=pq$ with $q>\sqrt n$ prime and $p\le n/q<\sqrt n$, so $q$ is the unique
+large prime divisor of $a$.
+\end{proof}
+
+\begin{claim}\label{claim:two-reps}
+For every integer $m$, the number of solutions of $m=a_1a_2$ with $a_1<a_2$ and
+$a_1,a_2\in A$ is at most $2$.
+\end{claim}
+
+\begin{proof}[Proof of Claim~\ref{claim:two-reps}]
+Fix $m$ and suppose $m=a_1a_2$ with $a_1<a_2$ and $a_1,a_2\in A$.
+By Claim~\ref{claim:one-large}, each $a_i$ contributes at most one large prime divisor,
+so $m$ has at most two large prime divisors (counted with multiplicity).
+
+\smallskip
+\noindent\emph{Case 0: $m$ has no large prime divisor.}
+Then neither $a_1$ nor $a_2$ can lie in $S$, hence $a_1,a_2\in P$ and $a_1,a_2\le \sqrt n$.
+Thus $m$ is the product of two primes and the representation is unique up to order; with the
+constraint $a_1<a_2$, there is at most one solution.
+
+\smallskip
+\noindent\emph{Case 1: $m$ has exactly one large prime divisor $q>\sqrt n$.}
+Then exactly one of $a_1,a_2$ is divisible by $q$. The factor divisible by $q$ is either
+$q\in P$ or $pq\in S$ with $p\le \sqrt n$ prime. The other factor has no large prime divisor,
+hence must be a prime $\le \sqrt n$ (an element of $P$). Consequently, $m$ has the form
+\[
+m=qpr
+\]
+where $p,r\le \sqrt n$ are primes (not necessarily distinct), and any solution corresponds
+to deciding whether $q$ is paired with $p$ or with $r$. This yields at most $2$ solutions
+(with fewer if $p=r$).
+
+\smallskip
+\noindent\emph{Case 2: $m$ has exactly two large prime divisors (counted with multiplicity).}
+Let the large prime divisors of $m$ (with multiplicity) be $q_1,q_2>\sqrt n$.
+By Claim~\ref{claim:one-large}, each $a\in A$ contains at most one large prime divisor, hence in any
+representation $m=a_1a_2$ with $a_1<a_2$ and $a_1,a_2\in A$, the two large primes $q_1,q_2$ must be split
+between $a_1$ and $a_2$, i.e. each of $a_1,a_2$ is divisible by exactly one of $q_1,q_2$. Moreover, by the definition of $A=P\cup S$, every element of $A$ is either a prime $\le n$, or a product
+$pq$ with $q>\sqrt n$ prime and $p$ prime (necessarily $p<\sqrt n$).
+In particular, if $a\in A$ is divisible by a large prime $q>\sqrt n$, then
+\[
+a=q\cdot u\qquad\text{with }u\in\{1\}\cup\{\text{primes }\le \sqrt n\}.
+\]
+Therefore any solution $m=a_1a_2$ forces
+\[
+a_1=q_1u_1,\qquad a_2=q_2u_2
+\]
+(up to swapping $q_1,q_2$), where $u_1,u_2\in\{1\}\cup\{\text{primes }\le \sqrt n\}$.
+
+If $q_1\neq q_2$, then the only possible ambiguity comes from swapping which small factor
+($u_1$ or $u_2$) is paired with $q_1$ or $q_2$.
+Since each $u_i$ is either $1$ or a single prime, there are at most two such pairings:
+\[
+(q_1u_1)(q_2u_2)\quad\text{or}\quad (q_1u_2)(q_2u_1),
+\]
+and after imposing $a_1<a_2$ this gives at most $2$ solutions (and fewer if $u_1=u_2$).
+
+If $q_1=q_2=q$, then every admissible factor must contain exactly one copy of $q$, hence
+$a_1=qu_1$, $a_2=qu_2$ with $u_1,u_2$ as above. Swapping yields the same unordered pair, so with the
+constraint $a_1<a_2$ there is at most one solution.
+
+Thus in all subcases, the number of solutions is at most $2$.
+
+
+\smallskip
+In all cases, the number of solutions is at most $2$.
+\end{proof}
+
+
+
+\noindent\textbf{2. Size of $A$. }Clearly
+\[
+|A|=|P|+|S|=\pi(n)+|S|.
+\]Thus by Proposition~\ref{prop:lower}, we know that\[
+|A|
+=\pi(n)+|S|
+=\frac{n\log\log n}{\log n}+(M+1)\frac{n}{\log n}+o \left(\frac{n}{\log n}\right).
+\]Claim~\ref{claim:two-reps} shows that $A$ is admissible, hence \(g_3(n)\ge |A|\). This completes the proof.
+\end{proof}
+
+
+\section{Concluding Remarks}
+In~\cite[p.~261]{Er64d}, Erd\H{o}s stated that his~\cite[Theorem~3]{Er64d} could be sharpened to
+\[
+g_3(n)\leq \frac{\log\log n}{\log n}n+O\!\left(\frac{n}{(\log n)^{1+c}}\right),
+\]
+where $c>0$ is a suitable positive constant. In view of Proposition~\ref{prop:main_lower_bound_1}, we now conjecture that the second term in the upper bound is also of order $n/\log n$:
+
+\begin{conjecture}
+There exists an absolute constant $c>0$ such that, for all sufficiently large $n$,
+\[
+g_3(n) \le \frac{n\log\log n}{\log n}+c\frac{n}{\log n}.
+\]
+\end{conjecture}
+
+More strongly, we also conjecture the following modified version of Problem~\ref{prob:EP796}:
+\begin{conjecture}
+Is it true that
+\[
+g_3(n)=\frac{\log\log n}{\log n}n+(c+o(1))\frac{n}{\log n}
+\]
+for some constant $c$?
+\end{conjecture}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \newpage
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem{EP796}
+T. F. Bloom, Erdős Problem \#796, \url{https://www.erdosproblems.com/796}, accessed 2025-12-30.
+
+\bibitem{CrEr20}
+Crisan, Dragos, and Radek Erban. "On the counting function of semiprimes." arXiv preprint arXiv:2006.16491 (2020).
+
+
+\bibitem{Er64d}
+P. Erd\H{o}s, On the multiplicative representation of integers. Israel Journal of Mathematics (1964), 251--261.
+
+
+
+\bibitem{Er69}
+P. Erd\H{o}s, Some applications of graph theory to number theory. The Many Facets of Graph Theory (Proc. Conf., Western Mich. Univ., Kalamazoo, Mich., 1968) (1969), 77--82.
+
+
+\end{thebibliography}
+
+
+
+
+
+\appendix
+
+
+\section{Preliminaries}
+Let $n\ge 3$. Define
+\[
+S:=\{pq\le n:\ p,q \text{ are primes and } q>\sqrt n\}.
+\]
+Let $\pi(x)$ be the prime-counting function, and let $\pi_2(x)$ denote the
+\emph{semiprime counting function} defined by
+\[
+\pi_2(x):=\#\{(p,q):\ p\le q,\ p,q\ \text{prime},\ pq\le x\}.
+\]
+
+
+\begin{lemma}\label{lem:decomp}
+For every $n\ge 3$,
+\[
+|S|
+=\pi_2(n)-\#\{(p,q):\ p\le q\le \sqrt n,\ p,q\ \text{prime}\}
+=\pi_2(n)-\frac{\pi(\sqrt n)\bigl(\pi(\sqrt n)+1\bigr)}{2}.
+\]
+\end{lemma}
+
+\begin{proof}
+Every pair $(p,q)$ of primes with $p\le q$ and $pq\le n$ falls into exactly one of the
+two disjoint classes:
+\[
+\mathcal{A}:=\{(p,q):\ p\le q\le \sqrt n\},\qquad
+\mathcal{B}:=\{(p,q):\ p\le q,\ pq\le n,\ q>\sqrt n\}.
+\]
+Hence $\pi_2(n)=|\mathcal{A}|+|\mathcal{B}|$.
+
+If $(p,q)\in\mathcal{A}$ then automatically $pq\le (\sqrt n)^2=n$, so $\mathcal{A}$ is simply
+the set of unordered pairs of primes $\le \sqrt n$ with repetition allowed. Therefore
+\[
+|\mathcal{A}|=\binom{\pi(\sqrt n)}{2}+\pi(\sqrt n)
+=\frac{\pi(\sqrt n)\bigl(\pi(\sqrt n)+1\bigr)}{2}.
+\]
+
+If $(p,q)\in\mathcal{B}$ then $q>\sqrt n$ and $pq\le n$; this is equivalent to the condition
+that the integer $pq$ lies in $S$. Moreover, because $q>\sqrt n$ implies $p<n/q<\sqrt n<q$,
+each element of $S$ corresponds to a unique pair $(p,q)\in\mathcal{B}$ with $p\le q$.
+Thus $|\mathcal{B}|=|S|$, and the claimed identity follows.
+\end{proof}
+
+
+
+Clearly, we have the asymptotic formula (see, for example, \cite[Theorem~2.3]{CrEr20})
+\begin{equation}\label{eq:pi2-asymp}
+\pi_2(x)=\frac{x\log\log x}{\log x}+M\frac{x}{\log x}+o\!\left(\frac{x}{\log x}\right).
+\end{equation}
+We also recall the prime number theorem $\pi(x)\sim x/\log x$. 
+
+
+\begin{proposition}\label{prop:lower}
+We have
+\[
+|S|
+=\frac{n\log\log n}{\log n}+M\frac{n}{\log n}+o\!\left(\frac{n}{\log n}\right).
+\]
+\end{proposition}
+% In particular, for every $\varepsilon>0$ there exists $n_0(\varepsilon)$ such that for all
+% $n\ge n_0(\varepsilon)$,
+% \[
+% |S|\ge \frac{n\log\log n}{\log n}+(M-\varepsilon)\frac{n}{\log n}.
+% \]
+
+
+\begin{proof}
+By Lemma~\ref{lem:decomp},
+\[
+|S|=\pi_2(n)-\frac{\pi(\sqrt n)\bigl(\pi(\sqrt n)+1\bigr)}{2}.
+\]
+By the prime number theorem, $\pi(\sqrt n)=O(\sqrt n/\log n)$, hence
+\[
+\pi(\sqrt n)^2=O\!\left(\frac{n}{(\log n)^2}\right)
+=o\!\left(\frac{n}{\log n}\right),
+\qquad
+\pi(\sqrt n)=o\!\left(\frac{n}{\log n}\right).
+\]
+Therefore
+\[
+\frac{\pi(\sqrt n)\bigl(\pi(\sqrt n)+1\bigr)}{2}
+=o\!\left(\frac{n}{\log n}\right).
+\]
+Combining this with \eqref{eq:pi2-asymp} at $x=n$ yields
+\[
+|S|=\frac{n\log\log n}{\log n}+M\frac{n}{\log n}+o \left(\frac{n}{\log n}\right).
+\qedhere\]
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
